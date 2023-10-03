@@ -138,6 +138,6 @@ func setup(auditLogger audit.AuditLogger, config *Config) (*http.Server, error) 
 		Handler:      loggingMuxRouter,
 		ReadTimeout:  config.readTimeout,
 		WriteTimeout: config.writeTimeout,
-		IdleTimeout: config.idleTimeout
+		IdleTimeout: config.idleTimeout,
 	}, nil
 }
