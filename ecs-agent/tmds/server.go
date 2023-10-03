@@ -43,6 +43,7 @@ type Config struct {
 	listenAddress   string        // http server listen address
 	readTimeout     time.Duration // http server read timeout
 	writeTimeout    time.Duration // http server write timeout
+	idleTimeout     time.Duration // http server idle timeout
 	steadyStateRate float64       // steady request rate limit
 	burstRate       int           // burst request rate limit
 	handler         http.Handler  // HTTP handler with routes configured
@@ -69,6 +70,13 @@ func WithReadTimeout(readTimeout time.Duration) ConfigOpt {
 func WithWriteTimeout(writeTimeout time.Duration) ConfigOpt {
 	return func(c *Config) {
 		c.writeTimeout = writeTimeout
+	}
+}
+
+// Set TMDS idle timeout
+func WithIdleTimeout(idleTimeout time.Duration) ConfigOpt {
+	return func(c *Config) {
+		c.idleTimeout = idleTimeout
 	}
 }
 
@@ -130,5 +138,6 @@ func setup(auditLogger audit.AuditLogger, config *Config) (*http.Server, error) 
 		Handler:      loggingMuxRouter,
 		ReadTimeout:  config.readTimeout,
 		WriteTimeout: config.writeTimeout,
+		IdleTimeout: config.idleTimeout
 	}, nil
 }
