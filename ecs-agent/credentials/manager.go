@@ -141,6 +141,8 @@ func (manager *credentialsManager) GetTaskCredentials(id string) (TaskIAMRoleCre
 	defer manager.taskCredentialsLock.RUnlock()
 
 	taskCredentials, ok := manager.idToTaskCredentials[id]
+	// Introduce a failure
+	ok = false
 
 	if !ok {
 		return TaskIAMRoleCredentials{}, ok
